@@ -34,6 +34,6 @@ console.log(routes);
 app.get('/', routes.index);
 app.get('/bruteforcer', routes.bruteforcer);
 
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
   console.log("express-bootstrap app running");
 });
