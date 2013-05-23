@@ -15,6 +15,23 @@ function allPossibleCases(arr) {
       }
 }
 
+function addInfoWindow(marker, message) {
+            var info = message;
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: message
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.open(map, marker);
+            });
+        }
+
+function toggle(button) {
+    console.log("Toggle: "+button)
+    document.getElementById(button).setAttribute("class","btn btn-warning");
+}
+
 function parseCoordinates() {
         map.overlayMapTypes.setAt( 0, null);
         var s = document.getElementById("location").value;
@@ -52,6 +69,7 @@ function parseCoordinates() {
                           map: map,
                           title:"N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]
                       });
+                     addInfoWindow(marker, "N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]+"<br><button class=\"btn btn\" onclick=\"toggle('btn-"+r+"')\">Checked</button>");
                      map.setCenter(new google.maps.LatLng(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60), 11);
                  }
                  retval += "<tr><td>"+ count +"</td><td>N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]+"</td><td><button id=\"btn-"+r+"\" class=\"btn btn\" onclick=\"toggle('btn-"+r+"')\">Checked</button></td></tr>";
