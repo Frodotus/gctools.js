@@ -16,7 +16,7 @@ function allPossibleCases(arr) {
 }
 
 function parseCoordinates() {
-        map.clearOverlays();
+        map.overlayMapTypes.setAt( 0, null);
         var s = document.getElementById("location").value;
         s = s.replace(/\s/g, '').replace(/N/g, '').replace(/E/g, '.').replace(/\u00B0/g, '.');
         sr = s.replace(/\(.*?\)/g, '?')
@@ -46,13 +46,13 @@ function parseCoordinates() {
                     //console.log(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60);
 
                     if(all.length<50){
-                     var point = new GLatLng(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60);
-                     var marker = new GMarker(point);
-                     GEvent.addListener(marker, "click", function () {
-                       map.openInfoWindowHtml(point, "N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]);
-                   });
-                     map.addOverlay(marker);
-                     map.setCenter(new GLatLng(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60), 11);
+                     var point = new google.maps.LatLng(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60);
+                     var marker = new google.maps.Marker({
+                          position: point,
+                          map: map,
+                          title:"N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]
+                      });
+                     map.setCenter(new google.maps.LatLng(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60), 11);
                  }
                  retval += "<tr><td>"+ count +"</td><td>N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]+"</td><td><button id=\"btn-"+r+"\" class=\"btn btn\" onclick=\"toggle('btn-"+r+"')\">Checked</button></td></tr>";
              });
@@ -61,11 +61,14 @@ function parseCoordinates() {
 }
 
 $(function(){
-    if (GBrowserIsCompatible()) {
-        map = new GMap2(document.getElementById("map_canvas"));
-        map.addControl(new GLargeMapControl3D());
-        map.addControl(new GMapTypeControl());
-        map.setCenter(new GLatLng(62+14.052/60,25+48.972/60), 7);
-        //        map.setCenter(new GLatLng(61.00383333333333,24.5755), 7);
-    }
+
+        var mapOptions = {
+          center: new google.maps.LatLng(62+14.052/60,25+48.972/60),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"),
+            mapOptions);
+
+
 })
