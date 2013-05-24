@@ -1,6 +1,7 @@
 var map;
 var markers = {};
 var locs = [];
+var markersArray = [];
 
 function allPossibleCases(arr) {
       if (arr.length == 1) {
@@ -38,6 +39,12 @@ function addToggler(marker, button) {
 function parseCoordinates() {
         markers = {};
         locs = [];
+        if (markersArray) {      
+            for (i in markersArray) {     
+                markersArray[i].setMap(null);    
+            }  
+        }   
+        markersArray = [];
         map.overlayMapTypes.setAt( 0, null);
         var s = document.getElementById("location").value;
         window.location.hash = "#" + document.getElementById("location").value;
@@ -78,6 +85,7 @@ function parseCoordinates() {
                       });                     
                      addToggler(marker,"btn-"+r);
                      markers["btn-"+r] = marker;
+                     markersArray.push(marker); 
                      var decLat = parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60;
                      var decLon = parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60;
                      map.setCenter(new google.maps.LatLng(decLat,decLon), 11);
