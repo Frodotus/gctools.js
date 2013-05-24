@@ -19,7 +19,7 @@ function allPossibleCases(arr) {
 
 function toggle(button) {
     console.log("Toggle: "+button)
-    document.getElementById(button).setAttribute("class","btn btn-warning");
+    document.getElementById(button).setAttribute("class","btn btn-danger");
     markers[button].setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
 }
 
