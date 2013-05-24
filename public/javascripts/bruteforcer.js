@@ -30,6 +30,7 @@ function addToggler(marker, button) {
 function parseCoordinates() {
         map.overlayMapTypes.setAt( 0, null);
         var s = document.getElementById("location").value;
+        window.location.hash = "#" + document.getElementById("location").value;
         s = s.replace(/\s/g, '').replace(/N/g, '').replace(/E/g, '.').replace(/\u00B0/g, '.');
         sr = s.replace(/\(.*?\)/g, '?')
         var c = sr.split(".");
@@ -74,14 +75,17 @@ function parseCoordinates() {
 }
 
 $(function(){
-
         var mapOptions = {
-          center: new google.maps.LatLng(62+14.052/60,25+48.972/60),
-          zoom: 8,
+          center: new google.maps.LatLng(62+14/60,25+45/60),
+          zoom: 11,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById("map_canvas"),
             mapOptions);
+        if(window.location.hash) {
+            document.getElementById("location").value = window.location.hash.substring(1);
+            parseCoordinates();
+        }
 
 
 })
