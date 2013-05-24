@@ -22,7 +22,7 @@ function allPossibleCases(arr) {
 function toggle(button) {
     console.log("Toggle: "+button)
     if(document.getElementById(button).getAttribute("class") == "btn btn-danger") {
-        document.getElementById(button).setAttribute("class","btn");
+        document.getElementById(button).setAttribute("class","btn btn-success");
         markers[button].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
     } else {
         document.getElementById(button).setAttribute("class","btn btn-danger");
@@ -91,7 +91,7 @@ function parseCoordinates() {
                      map.setCenter(new google.maps.LatLng(decLat,decLon), 11);
                      locs.push([decLat,decLon]);
                  }
-                 retval += "<tr><td>"+ count +"</td><td>N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]+"</td><td><button id=\"btn-"+r+"\" class=\"btn btn\" onclick=\"toggle('btn-"+r+"')\">Checked</button></td></tr>";
+                 retval += "<tr><td>"+ count +"</td><td>N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]+"</td><td><button id=\"btn-"+r+"\" class=\"btn btn-success\" onclick=\"toggle('btn-"+r+"')\">Checked</button></td></tr>";
              });
       document.getElementById("download").setAttribute("class","btn");
       document.getElementById("cachecoord").innerHTML = retval;
