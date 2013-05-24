@@ -6,7 +6,7 @@ Tools for finding geocaches and solving mystery caches.
 
 http://www.gcache.info
 
-### Okay, how do I participate?
+### Okay, how do I make modifications?
 
 * Install node.js
 
@@ -18,6 +18,6 @@ http://www.gcache.info
 
     npm install -d
 
-* Run app
+* Run app & start developing
 
 		node app
