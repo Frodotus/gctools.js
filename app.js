@@ -31,8 +31,10 @@ app.configure('production', function(){
 // Routes
 
 console.log(routes);
-app.get('/', routes.index);
+app.get('/', routes.bruteforcer);
+app.get('/home', routes.index);
 app.get('/bruteforcer', routes.bruteforcer);
+app.get('/myfinds', routes.myfinds);
 
 app.listen(process.env.PORT || 3000, function(){
   console.log("express-bootstrap app running");
