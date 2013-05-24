@@ -12,7 +12,7 @@ http://www.gcache.info
 
 * Clone this repo
 
-    git clone git://github.com/Srirangan/express-bootstrap.git
+    git clone git://github.com/Frodotus/gctools.js.git
 
 * Install dependencies locally
 
