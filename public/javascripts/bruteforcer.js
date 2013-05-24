@@ -1,4 +1,5 @@
 var map;
+var markers = {};
 
 function allPossibleCases(arr) {
       if (arr.length == 1) {
@@ -19,6 +20,7 @@ function allPossibleCases(arr) {
 function toggle(button) {
     console.log("Toggle: "+button)
     document.getElementById(button).setAttribute("class","btn btn-warning");
+    markers[button].setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
 }
 
 function addToggler(marker, button) {
@@ -28,6 +30,7 @@ function addToggler(marker, button) {
 }
 
 function parseCoordinates() {
+        markers = {};
         map.overlayMapTypes.setAt( 0, null);
         var s = document.getElementById("location").value;
         window.location.hash = "#" + document.getElementById("location").value;
@@ -63,9 +66,11 @@ function parseCoordinates() {
                      var marker = new google.maps.Marker({
                           position: point,
                           map: map,
+                          icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
                           title:"N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]
-                      });
+                      });                     
                      addToggler(marker,"btn-"+r);
+                     markers["btn-"+r] = marker;
                      map.setCenter(new google.maps.LatLng(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60), 11);
                  }
                  retval += "<tr><td>"+ count +"</td><td>N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]+"</td><td><button id=\"btn-"+r+"\" class=\"btn btn\" onclick=\"toggle('btn-"+r+"')\">Checked</button></td></tr>";
