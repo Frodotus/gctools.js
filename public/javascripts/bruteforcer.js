@@ -2,6 +2,7 @@ var map;
 var markers = {};
 var locs = [];
 var markersArray = [];
+var cachesArray = [];
 
 function allPossibleCases(arr) {
       if (arr.length == 1) {
@@ -64,6 +65,8 @@ function parseCoordinates() {
      } 
      retval="<tr><th>#</th><th>Coordinates</th><th>Checked</th></tr>"
      var count = 0;
+     var centerLon = 0;
+     var centerLat = 0;
      all.forEach(function(entry,i,a) {
         count = count+1;
         arr = entry.split("");
@@ -73,7 +76,11 @@ function parseCoordinates() {
        });
         var x = r.split(".");
                     if(all.length<50){
-                     var point = new google.maps.LatLng(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60);
+                     var decLat = parseInt(x[0])+(parseFloat(x[1]+"."+x[2])/60);
+                     var decLon = parseInt(x[3])+(parseFloat(x[4]+"."+x[5])/60);
+                     centerLat = centerLat+decLat;
+                     centerLon = centerLon+decLon;
+                     var point = new google.maps.LatLng(decLat,decLon);
                      var marker = new google.maps.Marker({
                           position: point,
                           map: map,
@@ -83,15 +90,54 @@ function parseCoordinates() {
                      addToggler(marker,"btn-"+r);
                      markers["btn-"+r] = marker;
                      markersArray.push(marker); 
-                     var decLat = parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60;
-                     var decLon = parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60;
-                     map.setCenter(new google.maps.LatLng(decLat,decLon), 11);
                      locs.push([decLat,decLon]);
                  }
                  retval += "<tr><td>"+ count +"</td><td>N "+x[0]+"&deg; "+x[1]+"."+x[2]+" E "+x[3]+"&deg; "+x[4]+"."+x[5]+"</td><td><button id=\"btn-"+r+"\" class=\"btn btn-success\" onclick=\"toggle('btn-"+r+"')\">Checked</button></td></tr>";
              });
+      centerLat = centerLat/count;
+      centerLon = centerLon/count;
+      map.setCenter(new google.maps.LatLng(centerLat,centerLon), 11);
       document.getElementById("download").setAttribute("class","btn");
+      document.getElementById("fetchCaches").setAttribute("class","btn");
       document.getElementById("cachecoord").innerHTML = retval;
+}
+
+
+function fetchCaches(){
+    $.get('/caches', function(data) {
+      if (cachesArray) {      
+          for (i in cachesArray) {     
+              cachesArray[i].setMap(null);    
+          }  
+      }   
+      cachesArray = [];
+      for (var i = 0; i < data.geocaches.length; i++) {
+        var cache = data.geocaches[i];
+        var point = new google.maps.LatLng(cache.lat,cache.lon);
+        var marker = new google.maps.Marker({
+              position: point,
+              map: map,
+              icon: cache.imageUrl,
+              title: cache.name
+         });                     
+         if(cache.type == 2 || cache.type == 3){
+             draw_circle = new google.maps.Circle({
+                center: point,
+                radius: 161,
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35,
+                map: map
+             });
+         }
+         cachesArray.push(marker); 
+
+
+         console.log(cache);
+      }
+    });
 }
 
 function genGpx(){

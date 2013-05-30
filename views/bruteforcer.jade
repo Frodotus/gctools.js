@@ -17,6 +17,7 @@ block content
             .input-append
               input.input-block-level(type="text", id="location", placeholder="Coordinates", onchange="parseCoordinates()")
               button.btn(onclick="parseCoordinates()") Map
+              a.btn.disabled(onclick="fetchCaches()", id="fetchCaches") Saturate
             span.help-block Example: N 62&deg; 15.9(1,2)0 E 025&deg; 53.000            
         .span6
           br

@@ -132,41 +132,43 @@ app.get('/auth/geocaching/callback', function(req, res){
     }
   });
 
-app.get('/users', function(req, res){
+app.get('/caches', function(req, res){
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   body = {
-    "AccessToken":req.cookies.at,
-    "ProfileOptions":{
-      "ChallengesData":false,
-      "FavoritePointsData":false,
-      "GeocacheData":false,
-      "PublicProfileData":false,
-      "SouvenirData":false,
-      "TrackableData":false
-    },
-  "DeviceInfo":{
-    "ApplicationCurrentMemoryUsage":1024,
-    "ApplicationPeakMemoryUsage":512,
-    "ApplicationSoftwareVersion":"0.1",
-    "DeviceManufacturer":"Apple",
-    "DeviceName":"Apple mbp",
-    "DeviceOperatingSystem":"Node",
-    "DeviceTotalMemoryInMB":4096,
-    "DeviceUniqueId":"3298749873948",
-    "MobileHardwareVersion":"0.1",
-    "WebBrowserVersion":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11"
-  }
-  };
+      "AccessToken":req.session.oauthAccessToken,
+      "IsLite":false,
+      "MaxPerPage":30,
+      "GeocacheLogCount":0,
+      "TrackableLogCount":0,
+      "PointRadius":{
+        "DistanceInMeters":1500,
+        "Point":{
+          "Latitude": 62.23508,
+          "Longitude": 25.81352
+        }
+      }
+    };
       console.log(JSON.stringify(body))
-      oa.post("https://staging.api.groundspeak.com/Live/V6Beta/geocaching.svc/GetYourUserProfile?format=Json", req.cookies.at, req.cookies.ats, JSON.stringify(body), "text/json", function (error, json, response) {
+      oa.post("https://staging.api.groundspeak.com/Live/V6Beta/geocaching.svc/SearchForGeocaches?format=Json", req.session.oauthAccessToken, req.session.oauthAccessTokenSecret, JSON.stringify(body), "text/json", function (error, json, response) {
         if (error) {
           console.log(error)
           res.send("Error getting geocaching username : ", 500);
         } else {
           console.log(json);
           data = JSON.parse(json);
+          console.log("Geocaches:"+data.Geocaches.length);
+          var ret = {status: true, geocaches: []};
+          for (var i = 0; i < data.Geocaches.length; i++) {
+              var cache = data.Geocaches[i];
+              console.log(cache.Name);
+              console.log(cache.Longitude);
+              console.log(cache.Latitude);
+              console.log("----------------------");
+              ret.geocaches.push({name: cache.Name, lat: cache.Latitude, lon: cache.Longitude, type: cache.CacheType.GeocacheTypeId,imageUrl: cache.CacheType.ImageURL})
+              //Do something
+          }
           //req.session.twitterScreenName = data["screen_name"];    
-          res.send(data.Profile.User.UserName);
+          res.send(ret);
         }  
       });  
 
