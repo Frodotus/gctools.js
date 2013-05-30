@@ -126,7 +126,7 @@ app.get('/auth/geocaching/callback', function(req, res){
         } else {
           data = JSON.parse(json);
           req.session.profile = data.Profile.User;          
-          res.redirect('/profile')
+          res.redirect('/')
         }  
       });
     }

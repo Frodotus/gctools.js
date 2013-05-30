@@ -26,7 +26,11 @@ html
                 a(href="/bruteforcer") Bruteforcer
             ul.nav(style="float:right;")
               li
-                a(href="/auth/geocaching") login
+                - if (profile)
+                  a(href="/profile")
+                    = profile.UserName
+                - else
+                  a(href="/auth/geocaching") login
 
     .container
       block content

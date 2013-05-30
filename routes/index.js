@@ -4,15 +4,15 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'GCTools', active: 'home' })
+  res.render('index', { title: 'GCTools', active: 'home', profile: req.session.profile  })
 };
 
 exports.bruteforcer = function(req, res){
-  res.render('bruteforcer', { title: 'GCTools - Bruteforcer', active: 'bruteforcer' })
+  res.render('bruteforcer', { title: 'GCTools - Bruteforcer', active: 'bruteforcer', profile: req.session.profile  })
 };
 
 exports.myfinds = function(req, res){
-  res.render('myfinds', { title: 'GCTools - MyFinds', active: 'myfinds' })
+  res.render('myfinds', { title: 'GCTools - MyFinds', active: 'myfinds', profile: req.session.profile  })
 };
 
 exports.profile = function(req, res){
