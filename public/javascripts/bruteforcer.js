@@ -98,7 +98,9 @@ function parseCoordinates() {
       centerLon = centerLon/count;
       map.setCenter(new google.maps.LatLng(centerLat,centerLon), 11);
       document.getElementById("download").setAttribute("class","btn");
-      document.getElementById("fetchCaches").setAttribute("class","btn");
+      if (typeof document.getElementById("fetchCaches") === "undefined") {
+        document.getElementById("fetchCaches").setAttribute("class","btn");
+      }
       document.getElementById("cachecoord").innerHTML = retval;
 }
 
