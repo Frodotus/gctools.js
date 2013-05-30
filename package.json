@@ -4,6 +4,9 @@
   , "private": true
   , "dependencies": {
       "express": ">= 0.0.1"
+    , "request": ">= 2.21.0"
     , "jade": ">= 0.0.1"
+    , "oauth": ">= 0.9.10"
+    , "nano" : "3.3.8" 
   }
 }

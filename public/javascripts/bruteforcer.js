@@ -20,7 +20,6 @@ function allPossibleCases(arr) {
 
 
 function toggle(button) {
-    console.log("Toggle: "+button)
     if(document.getElementById(button).getAttribute("class") == "btn btn-danger") {
         document.getElementById(button).setAttribute("class","btn btn-success");
         markers[button].setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
@@ -47,8 +46,8 @@ function parseCoordinates() {
         markersArray = [];
         map.overlayMapTypes.setAt( 0, null);
         var s = document.getElementById("location").value;
-        window.location.hash = "#" + document.getElementById("location").value;
         s = s.replace(/\s/g, '').replace(/N/g, '').replace(/E/g, '.').replace(/\u00B0/g, '.');
+        window.location.hash = "#" + s;
         sr = s.replace(/\(.*?\)/g, '?')
         var c = sr.split(".");
         document.getElementById("cachecoord").innerHTML = "N "+c[0]+"&deg; "+c[1]+"."+c[2]+" E "+c[3]+"&deg; "+c[4]+"."+c[5]+"";
@@ -73,8 +72,6 @@ function parseCoordinates() {
            r = r.replace(/\?/, entryitem)
        });
         var x = r.split(".");
-                    //console.log(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60);
-
                     if(all.length<50){
                      var point = new google.maps.LatLng(parseInt(x[0])+(parseInt(x[1])+parseInt(x[2])/100)/60,parseInt(x[3])+(parseInt(x[4])+parseInt(x[5])/100)/60);
                      var marker = new google.maps.Marker({
