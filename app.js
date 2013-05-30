@@ -5,7 +5,7 @@
 console.log("Key:"+process.env.CONSUMERKEY);
 var express = require('express')
   , routes = require('./routes');
-var OAuth = require('OAuth').OAuth;
+var OAuth = require('oauth').OAuth;
 
 var app = module.exports = express();
 
