@@ -14,3 +14,7 @@ exports.bruteforcer = function(req, res){
 exports.myfinds = function(req, res){
   res.render('myfinds', { title: 'GCTools - MyFinds', active: 'myfinds' })
 };
+
+exports.profile = function(req, res){
+  res.render('profile', { title: 'GCTools - Profile', active: 'profile', profile: req.session.profile })
+};

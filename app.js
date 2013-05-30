@@ -55,6 +55,7 @@ app.get('/', routes.bruteforcer);
 app.get('/home', routes.index);
 app.get('/bruteforcer', routes.bruteforcer);
 app.get('/myfinds', routes.myfinds);
+app.get('/profile', routes.profile);
 
 
 app.get('/auth/geocaching', function(req, res){
@@ -92,7 +93,7 @@ app.get('/auth/geocaching/callback', function(req, res){
       res.cookie('ats', oauthAccessTokenSecret);
   console.log("a>>"+req.session.oauthAccessToken);
   console.log("as>>"+req.session.oauthAccessTokenSecret);
-      // Right here is where we would write out some nice user stuff
+
   body = {
     "AccessToken":req.session.oauthAccessToken,
     "ProfileOptions":{
@@ -120,14 +121,13 @@ app.get('/auth/geocaching/callback', function(req, res){
       oa.post("https://staging.api.groundspeak.com/Live/V6Beta/geocaching.svc/GetYourUserProfile?format=Json", req.session.oauthAccessToken, req.session.oauthAccessTokenSecret, JSON.stringify(body), "text/json", function (error, json, response) {
         if (error) {
           console.log(error)
-          res.send("Error getting geocaching username : ", 500);
+          res.send("Error logging in : ", 500);
         } else {
-          console.log(json);
           data = JSON.parse(json);
-          //req.session.twitterScreenName = data["screen_name"];    
-          res.send(data.Profile.User.UserName);
+          req.session.profile = data.Profile.User;          
+          res.redirect('/profile')
         }  
-      });  
+      });
     }
   });
 
