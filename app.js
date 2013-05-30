@@ -78,10 +78,11 @@ app.get('/auth/geocaching', function(req, res){
 
 app.get('/auth/geocaching/callback', function(req, res){
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-  console.log(">>"+req.session.oauth.token);
-  console.log(">>"+req.session.oauth.token_secret);
+  console.log("callback()");
   console.log(">>"+req.query.oauth_token);
   console.log(">>"+req.query.oauth_verifier);
+  console.log(">>"+req.session.oauth.token_secret);
+  console.log(">>"+req.session.oauth.token);
 
   oa.getOAuthAccessToken(req.session.oauth.token, req.session.oauth.token_secret, req.query.oauth_verifier, function(error, oauthAccessToken, oauthAccessTokenSecret, results) {
     if (error) {
