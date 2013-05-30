@@ -15,7 +15,7 @@ var oa = new OAuth(
   process.env.CONSUMERKEY,
   process.env.CONSUMERSECRET,
   "1.0",
-  "http://localhost:3000/auth/geocaching/callback",
+  "http://"+process.env.HOSTNAME+"/auth/geocaching/callback",
   "HMAC-SHA1",
   32,
   { "Accept": "text/json", "Connection": "close", "User-Agent": "Node authentication" }
