@@ -3,6 +3,8 @@ var markers = {};
 var locs = [];
 var markersArray = [];
 var cachesArray = [];
+var centerLon = 0;
+var centerLat = 0;
 
 function allPossibleCases(arr) {
       if (arr.length == 1) {
@@ -65,8 +67,8 @@ function parseCoordinates() {
      } 
      retval="<tr><th>#</th><th>Coordinates</th><th>Checked</th></tr>"
      var count = 0;
-     var centerLon = 0;
-     var centerLat = 0;
+     centerLon = 0;
+     centerLat = 0;
      all.forEach(function(entry,i,a) {
         count = count+1;
         arr = entry.split("");
@@ -98,7 +100,7 @@ function parseCoordinates() {
       centerLon = centerLon/count;
       map.setCenter(new google.maps.LatLng(centerLat,centerLon), 11);
       document.getElementById("download").setAttribute("class","btn");
-      if (typeof document.getElementById("fetchCaches") === "undefined") {
+      if (typeof document.getElementById("fetchCaches") != "undefined") {
         document.getElementById("fetchCaches").setAttribute("class","btn");
       }
       document.getElementById("cachecoord").innerHTML = retval;
@@ -106,7 +108,7 @@ function parseCoordinates() {
 
 
 function fetchCaches(){
-    $.get('/caches', function(data) {
+    $.get('/caches.json?lat'+centerLat+'&lon='+centerLon, function(data) {
       if (cachesArray) {      
           for (i in cachesArray) {     
               cachesArray[i].setMap(null);    

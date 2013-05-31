@@ -132,7 +132,7 @@ app.get('/auth/geocaching/callback', function(req, res){
     }
   });
 
-app.get('/caches', function(req, res){
+app.get('/caches.json', function(req, res){
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   body = {
       "AccessToken":req.session.oauthAccessToken,
@@ -143,8 +143,8 @@ app.get('/caches', function(req, res){
       "PointRadius":{
         "DistanceInMeters":1500,
         "Point":{
-          "Latitude": 62.23508,
-          "Longitude": 25.81352
+          "Latitude": req.query.lat,
+          "Longitude": req.query.lon
         }
       }
     };
