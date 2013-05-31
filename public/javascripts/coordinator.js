@@ -48,6 +48,7 @@ function fetchCaches(){
                 fillOpacity: 0.05,
                 map: map
              });
+             cachesArray.push(draw_circle); 
          }
          cachesArray.push(marker); 
       }
@@ -85,5 +86,14 @@ $(function(){
             var cdiv = document.getElementById("coordinates");
             window.location.hash = "#" + latLng.lat()+"&"+latLng.lng();
             cdiv.innerHTML= "Coordinates: "+toDecMinString(latLng);
+        });
+
+        $("body").on({
+          ajaxStart: function() { 
+              $(this).addClass("loading"); 
+          },
+          ajaxStop: function() { 
+              $(this).removeClass("loading"); 
+          }    
         });
 })
