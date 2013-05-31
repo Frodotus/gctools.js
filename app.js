@@ -153,11 +153,11 @@ app.get('/caches.json', function(req, res){
   body = {
       "AccessToken":req.session.oauthAccessToken,
       "IsLite":false,
-      "MaxPerPage":30,
+      "MaxPerPage":50,
       "GeocacheLogCount":0,
       "TrackableLogCount":0,
       "PointRadius":{
-        "DistanceInMeters":1500,
+        "DistanceInMeters":3000,
         "Point":{
           "Latitude": req.query.lat,
           "Longitude": req.query.lon
