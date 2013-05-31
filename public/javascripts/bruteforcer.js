@@ -108,7 +108,7 @@ function parseCoordinates() {
 
 
 function fetchCaches(){
-    $.get('/caches.json?lat'+centerLat+'&lon='+centerLon, function(data) {
+    $.get('/caches.json?lat='+centerLat+'&lon='+centerLon, function(data) {
       if (cachesArray) {      
           for (i in cachesArray) {     
               cachesArray[i].setMap(null);    
@@ -118,10 +118,17 @@ function fetchCaches(){
       for (var i = 0; i < data.geocaches.length; i++) {
         var cache = data.geocaches[i];
         var point = new google.maps.LatLng(cache.lat,cache.lon);
+        var pinIcon = new google.maps.MarkerImage(
+            cache.imageUrl,
+            null, /* size is determined at runtime */
+            null, /* origin is 0,0 */
+            new google.maps.Point(8, 8), /* anchor is bottom center of the scaled image */
+            new google.maps.Size(16, 16)
+        );  
         var marker = new google.maps.Marker({
               position: point,
               map: map,
-              icon: cache.imageUrl,
+              icon: pinIcon,
               title: cache.name
          });                     
          if(cache.type == 2 || cache.type == 3){
