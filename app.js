@@ -53,6 +53,8 @@ app.configure('production', function(){
 console.log(routes);
 app.get('/', routes.bruteforcer);
 app.get('/home', routes.index);
+app.get('/coordinator', routes.coordinator);
+app.get('/saturator', routes.saturator);
 app.get('/bruteforcer', routes.bruteforcer);
 app.get('/myfinds', routes.myfinds);
 app.get('/profile', routes.profile);
@@ -132,6 +134,20 @@ app.get('/auth/geocaching/callback', function(req, res){
     }
   });
 
+app.get('/pocketqueries.json', function(req, res){
+  res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  oa.get("https://staging.api.groundspeak.com/Live/V6Beta/geocaching.svc/GetPocketQueryList?format=Json&accessToken="+req.session.oauthAccessToken, req.session.oauthAccessToken, req.session.oauthAccessTokenSecret, function (error, json, response) {
+    if (error) {
+      console.log(error)
+      res.send("Error getting geocaching username : ", 500);
+    } else {
+      console.log(json);
+      res.send(json);
+    }  
+  });  
+
+});
+
 app.get('/caches.json', function(req, res){
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
   body = {
@@ -160,11 +176,26 @@ app.get('/caches.json', function(req, res){
           var ret = {status: true, geocaches: []};
           for (var i = 0; i < data.Geocaches.length; i++) {
               var cache = data.Geocaches[i];
+              var solved = false;
               console.log(cache.Name);
-              console.log(cache.Longitude);
-              console.log(cache.Latitude);
+              var lon = cache.Longitude;
+              var lat = cache.Latitude;
+              console.log("Type:"+cache.CacheType.GeocacheTypeId);
+              if(cache.CacheType.GeocacheTypeId == 8){
+                for (var a = 0; a < cache.UserWaypoints.length; a++) {
+                  var wp = cache.UserWaypoints[a];
+                  console.log(wp.Description);
+                  if(wp.Description == "Coordinate Override"){
+                    solved = true;
+                    lon = wp.Longitude;
+                    lat = wp.Latitude;
+                    console.log("Lon: "+lon+" Lat: "+lat);
+                  }
+                }
+              }
+              console.log(cache.UserWaypoints);
               console.log("----------------------");
-              ret.geocaches.push({name: cache.Name, lat: cache.Latitude, lon: cache.Longitude, type: cache.CacheType.GeocacheTypeId,imageUrl: cache.CacheType.ImageURL})
+              ret.geocaches.push({name: cache.Name, lat: lat, lon: lon, solved: solved, type: cache.CacheType.GeocacheTypeId,imageUrl: cache.CacheType.ImageURL})
               //Do something
           }
           //req.session.twitterScreenName = data["screen_name"];    

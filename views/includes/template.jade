@@ -22,8 +22,10 @@ html
           .brand GCTools
           .nav-collapse.collapse
             ul.nav
-              li.active
+              li(class=(active === 'bruteforcer' ? 'active' : ''))
                 a(href="/bruteforcer") Bruteforcer
+              li(class=(active === 'coordinator' ? 'active' : ''))
+                a(href="/coordinator") Coordinator
             ul.nav(style="float:right;")
               li
                 - if (profile)

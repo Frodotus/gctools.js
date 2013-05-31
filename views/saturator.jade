@@ -1,0 +1,38 @@
+extends includes/template
+block scripts
+  script(src="//maps.googleapis.com/maps/api/js?key=AIzaSyAvt9EM1RvCa3f_X8oPbVeOY8gfcSU75UU&sensor=true")
+  script(src="/javascripts/bruteforcer.js")
+block content
+  .row
+    br
+    br
+    br
+    p
+      .row-fluid.marketing
+        #map_canvas.span12(style="height: 500px")
+      .row-fluid.marketing
+        .span6
+          br
+          fieldset
+            .input-append
+              input.input-block-level(type="text", id="location", placeholder="Coordinates", onchange="parseCoordinates()")
+              button.btn(onclick="parseCoordinates()") Map
+              - if (profile)
+                a.btn.disabled(onclick="fetchCaches()", id="fetchCaches") Saturate
+            span.help-block Example: N 62&deg; 15.9(1,2)0 E 025&deg; 53.000            
+        .span6
+          br
+          table.table.table-striped(id="cachecoord")
+            tr
+              th #
+              th Coordinates
+              th Checked
+            tr
+              td 1
+              td &nbsp;
+              td &nbsp;
+            tr
+              td 2
+              td &nbsp;
+              td &nbsp;
+          a.btn.disabled(onclick="genGpx()", id="download") Download gpx

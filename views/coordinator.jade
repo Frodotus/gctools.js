@@ -1,0 +1,16 @@
+extends includes/template
+block scripts
+  script(src="//maps.googleapis.com/maps/api/js?key=AIzaSyAvt9EM1RvCa3f_X8oPbVeOY8gfcSU75UU&sensor=true")
+  script(src="/javascripts/coordinator.js")
+block content
+  .row
+    br
+    br
+    br
+    p
+      .row-fluid.marketing
+        #map_canvas.span12(style="height: 500px")
+      .row-fluid.marketing
+        .span6
+          br
+          .coordinates(id="coordinates")
